@@ -1,33 +1,41 @@
 This repo explores some concepts for organization, generation, and dispatch of SIMD code in Go.
 
-It's runnable code. Only a very small amount of proposed API and no real SIMD (just emulation) is implemented. However, I think it's looking at organizational concepts in a substantive way. It's running enough to have forced some clarity in the details.
-
-It is borrowing nomenclature and ideas heavily from:
+Nomenclature and ideas borrowed heavily from:
 - [Go Simd Proposal: Issue #73787](https://github.com/golang/go/issues/73787)
 - [Google Highway](https://github.com/google/highway)
 - [Another sketch of generated Go SIMD code](https://docs.google.com/document/d/1Wfidbmy4KYiNYfrFJfqrrFYwuT2ITP5vceku8_LFsXU/)
 
-Workflow:
+Run it:
+
 1. `go run .` to generate
 2. `go test` to test
 
 ---
 
-### What happens in step 1
+### What happened?
+
+Step 1:
 - `*_simd.go` files are slurped up
 - code gen (from the `gensimd` directory) generates concrete impls, based on `Dispatch` data, respecting overloads.
 - generated and overloaded impls are written to the `simd` directory
 - parts of the `stdlib/simd` directory are also written to the `simd` directory
 - finally, an `export.go` file is written to the `simd` directory to export routines
 
-### What happens in step 2
-As commited to the repo, testing reveals a (deliberately) broken overload that yields an incorrect result.
+Step 2:
+
+Testing reveals a (deliberately) broken overload that yields an incorrect result.
 
 To fix, look in `sigmoid_simd.go` - a comment shows what's wrong.
 
 ---
 
-### What does this demonstrate?
+### Project Status:
+
+It's runnable. Only a very small amount of proposed API and no real SIMD (just emulation) is implemented. However, I think it's looking at organizational concepts in a substantive way. It's running enough to have forced some clarity in the details.
+
+---
+
+### What does this repo demonstrate?
 
 - A two-step workflow for generating simd code - a generative step, then a compile-as-usual step.
 - A consistent naming scheme. Generated functions and files are tagged with ISA and numeric types. Overloads result from following the scheme.
