@@ -19,7 +19,7 @@ Step 1:
 
 - `*_simd.go` files in the `simd` directory are slurped up
 - code generation (from the `gensimd` directory) generates various concrete impls
-- concrete impls are based on `Dispatch` values: mostly substitutions and tagging, respecting overloads
+- concrete impls are based on `Dispatch` values - mostly substitutions and tagging, respecting overloads
 - generated and overloaded impls are written to the `simd` directory
 - necessary parts of the `stdlib/simd` directory are also cloned to the `simd` directory
 - finally, an `export.go` file is written to the `simd` directory to export routines
@@ -44,14 +44,14 @@ update: Did a lot of code golf, or code jenga in the sense that it's trying to s
 ### What does this repo demonstrate?
 
 - A two-step workflow for generating simd code - a generative step, then a compile-as-usual step.
-- A consistent naming scheme. Generated functions and files are tagged with simd and cpu ISA.
+- A consistent naming scheme
 
     Some examples of renaming and tagging:
-    1. `func Wip` -> `func Wip_F64`
-    2. `simd.VecT` -> `F64s`
-    3. `func foo` -> `foo_emuB_F64s`
+    1. `func Wip` -> `func Wip_F64` (`Wip` is exported, and rewritten per-`simd.Unit` flavor)
+    2. `simd.VecT` -> `F64s` (substitution of a scalable float64 vector type)
+    3. `func foo` -> `foo_emuB_F64s` (`foo` is rewritten per simd ISA / vector type combination)
     4. `func foo_emuA_F64x4` overloads `foo` for that simd isa and vector type
-    5. `sigmoid.go` -> `sigmoid_emuA_native.go`
+    5. `sigmoid_simd.go` -> `sigmoid_emuA_native.go` (rewritten files indicate simd and cpu ISA)
 
 - How some concepts like pure/virtual API surface, templates - employed by Google Highway, in C++ - can be realized via code generation in Go.
 
