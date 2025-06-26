@@ -112,12 +112,12 @@ func (env *genEnv) scanSources() {
 		if err != nil {
 			throw("scanning %s: %w", path, err)
 		}
-		defer f.Close()
 
 		data, err := io.ReadAll(f)
 		if err != nil {
 			throw("scanning %s: %w", path, err)
 		}
+		f.Close()
 
 		name := strings.TrimSuffix(path, "_simd.go")
 		env.initSource(name, string(data))

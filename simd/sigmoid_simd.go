@@ -18,6 +18,18 @@ func exp(xs simd.VecT) simd.VecT {
 	return xs
 }
 
+func exp_emuA_F32x8(in simd.F32x8) (out simd.F32x8) {
+	out.A0 = float32(math.Exp(float64(-in.A0)))
+	out.A1 = float32(math.Exp(float64(-in.A1)))
+	out.A2 = float32(math.Exp(float64(-in.A2)))
+	out.A3 = float32(math.Exp(float64(-in.A3)))
+	out.A4 = float32(math.Exp(float64(-in.A4)))
+	out.A5 = float32(math.Exp(float64(-in.A5)))
+	out.A6 = float32(math.Exp(float64(-in.A6)))
+	out.A7 = float32(math.Exp(float64(-in.A7)))
+	return
+}
+
 func exp_emuA_F64x4(in simd.F64x4) (out simd.F64x4) {
 	out.A0 = math.Exp(-in.A0)
 	out.A1 = math.Exp(-in.A1)
