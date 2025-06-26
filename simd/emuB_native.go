@@ -1,7 +1,5 @@
 package simd
 
-// 32s
-
 func loadU_emuB_F32s(vs []float32) (reg F32s) {
 	for i := range vs {
 		reg[i] = vs[i]
@@ -35,13 +33,6 @@ func add_emuB_F32s(in1, in2 F32s) (out F32s) {
 	return
 }
 
-func sub_emuB_F32s(in1, in2 F32s) (out F32s) {
-	for i := range in1 {
-		out[i] = in1[i] - in2[i]
-	}
-	return
-}
-
 func mul_emuB_F32s(in1, in2 F32s) (out F32s) {
 	for i := range in1 {
 		out[i] = in1[i] * in2[i]
@@ -55,8 +46,6 @@ func div_emuB_F32s(in1, in2 F32s) (out F32s) {
 	}
 	return
 }
-
-// 64s
 
 func loadU_emuB_F64s(vs []float64) (reg F64s) {
 	for i := range vs {

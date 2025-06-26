@@ -1,11 +1,13 @@
-package main
+//go:build ignore
+
+package simd
 
 import (
-	"gosimd/stdlib/simd"
 	"math"
+	"stdlib/simd"
 )
 
-func Sigmoid(inout, in1 []simd.T) {
+func Sigmoid(inout, in1 []simd.Unit) {
 	transform1(inout, in1, func(a, b simd.VecT) simd.VecT {
 		return simd.Div(a, simd.Add(a, exp(b)))
 	})
@@ -31,13 +33,13 @@ func exp_emuB_F64s(in simd.F64s) (out simd.F64s) {
 	return in // deliberate bug here, should be naked return of out
 }
 
-func transform1(inout, in1 []simd.T, fn func(simd.VecT, simd.VecT) simd.VecT) {
+func transform1(inout, in1 []simd.Unit, fn func(simd.VecT, simd.VecT) simd.VecT) {
 	var i int
 	count := min(len(inout), len(in1))
 
-	if count >= simd.N {
-		for i <= count-simd.N {
-			ii := i + simd.N
+	if count >= simd.Lanes {
+		for i <= count-simd.Lanes {
+			ii := i + simd.Lanes
 			v0 := simd.LoadU(inout[i:ii])
 			v1 := simd.LoadU(in1[i:ii])
 			v0 = fn(v0, v1)

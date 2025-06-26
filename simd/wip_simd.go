@@ -1,11 +1,13 @@
-package main
+//go:build ignore
+
+package simd
 
 import (
-	"gosimd/stdlib/simd"
 	"math"
+	"stdlib/simd"
 )
 
-func Wip(vs [][]simd.T) simd.T {
+func Wip(vs [][]simd.Unit) simd.Unit {
 	if len(vs) == 0 {
 		return 0
 	}
@@ -19,7 +21,7 @@ func Wip(vs [][]simd.T) simd.T {
 	}
 
 	var sum simd.VecT
-	const L = simd.N
+	const L = simd.Lanes
 	var i int
 
 	for i < l-L {
@@ -40,17 +42,17 @@ func Wip(vs [][]simd.T) simd.T {
 		sum = simd.Add(sum, a)
 	}
 
-	var tmp []simd.T
+	var tmp []simd.Unit
 
 	if l < L {
-		tmp = make([]simd.T, l)
+		tmp = make([]simd.Unit, l)
 		simd.StoreN(sum, &tmp, L-l)
 	} else {
-		tmp = make([]simd.T, L)
+		tmp = make([]simd.Unit, L)
 		simd.StoreU(sum, &tmp)
 	}
 
-	var x simd.T
+	var x simd.Unit
 	for _, y := range tmp {
 		x += y
 	}

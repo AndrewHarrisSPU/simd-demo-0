@@ -1,67 +1,69 @@
 package gensimd
 
-import (
-	"unicode"
-	"unicode/utf8"
-
-	"gosimd/stdlib/simd"
-)
-
-// list of symbols in stdlib/simd package, but not in Dispatch
-var simdTypes = []string{
-	"F64",
+// set of symbols in stdlib/simd package, but not in Dispatch
+var setUnitTypes = map[string]bool{
+	"F64": true,
+	"F32": true,
 }
 
-var simdVecTypes = []string{
-	"F64x4", "F64s",
+var setVecTypes = map[string]bool{
+	"F64x4": true,
+	"F32x8": true,
+	"F32s":  true,
+	"F64s":  true,
 }
 
-var simdISAs = []string{
+var listISAs = []string{
 	"emuA", "emuB",
 }
 
-var simdOps = []string{
-	"Add", "Mul", "Div", "LoadU", "LoadN", "StoreU", "StoreN",
+var setOps = map[string]bool{
+	"Add":    true,
+	"Mul":    true,
+	"Div":    true,
+	"Neg":    true,
+	"LoadU":  true,
+	"LoadN":  true,
+	"StoreU": true,
+	"StoreN": true,
 }
 
-func makeSymbolMap(d simd.Dispatch) map[string]string {
-	m := make(map[string]string)
-
-	// merge Dispatch symbols
-	m["ISA"] = d.ISA()
-	m["T"] = d.T()
-	m["N"] = d.N()
-	m["tag"] = d.Tag()
-	m["VecT"] = d.VecT()
-	m["Arch"] = d.Arch()
-
-	// preserve simd VecTypes
-	for _, vect := range simdVecTypes {
-		m[vect] = vect
-	}
-
-	// merge simd types
-	for _, t := range simdTypes {
-		m[t] = unexport(t)
-	}
-
-	// merge simd ops symbols
-	for _, op := range simdOps {
-		m[op] = unexport(op) + `_` + m["tag"]
-	}
-
-	return m
+var dictNativeToUnit = map[string]string{
+	"float32": "F32",
+	"float64": "F64",
 }
 
-func unexport(symbol string) string {
-	if len(symbol) == 0 {
-		panic("empty symbol")
-	}
+var dictUnitsToNative = map[string]string{
+	"F32": "float32",
+	"F64": "float64",
+}
 
-	r, n := utf8.DecodeRuneInString(symbol)
-	if !unicode.IsUpper(r) {
-		return symbol
-	}
+var dictVecTsToNative = map[string]string{
+	"F32x8": "float32",
+	"F64x4": "float64",
+	"F32s":  "float32",
+	"F64s":  "float64",
+}
 
-	return string(unicode.ToLower(r)) + symbol[n:]
+var dictVecTsToUnit = map[string]string{
+	"F32x8": "F32",
+	"F64x4": "F64",
+	"F32s":  "F32",
+	"F64s":  "F64",
+}
+
+var dictISAtoArch = map[string]string{
+	"emuA": "native",
+	"emuB": "native",
+}
+
+var supportedTags tagSet = tagSet{
+	"emuA": {
+		"F32x8": true,
+		"F64x4": true,
+	},
+	"emuB": {
+		"F32s": true,
+		"F64s": true,
+	},
 }

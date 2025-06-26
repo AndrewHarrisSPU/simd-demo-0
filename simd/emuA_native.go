@@ -1,12 +1,7 @@
 package simd
 
-// 32x8
-
 func loadU_emuA_F32x8(vs []float32) (reg F32x8) {
-	return F32x8{
-		vs[0], vs[1], vs[2], vs[3],
-		vs[4], vs[5], vs[6], vs[7],
-	}
+	return F32x8{vs[0], vs[1], vs[2], vs[3], vs[4], vs[5], vs[6], vs[7]}
 }
 
 func loadN_emuA_F32x8(vs []float32, remain int) (reg F32x8) {
@@ -105,19 +100,8 @@ func div_emuA_F32x8(in1, in2 F32x8) (out F32x8) {
 	return
 }
 
-func neg_emuA_F32x8(reg F32x8) F32x8 {
-	return F32x8{
-		-reg.A0, -reg.A1, -reg.A2, -reg.A3,
-		-reg.A4, -reg.A5, -reg.A3, -reg.A4,
-	}
-}
-
-// 64x4
-
 func loadU_emuA_F64x4(vs []float64) (reg F64x4) {
-	return F64x4{
-		vs[0], vs[1], vs[2], vs[3],
-	}
+	return F64x4{vs[0], vs[1], vs[2], vs[3]}
 }
 
 func loadN_emuA_F64x4(vs []float64, remain int) (reg F64x4) {

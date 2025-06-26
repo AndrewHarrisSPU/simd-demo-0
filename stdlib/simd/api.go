@@ -13,18 +13,18 @@ func Or(VecT, VecT) VecT  { return VecT{} }
 func And(VecT, VecT) VecT { return VecT{} }
 
 // load / store ops
-func LoadU([]T) VecT         { return VecT{} }
-func LoadN([]T, int) VecT    { return VecT{} }
-func StoreU(VecT, *[]T)      {}
-func StoreN(VecT, *[]T, int) {}
+func LoadU([]Unit) VecT         { return VecT{} }
+func LoadN([]Unit, int) VecT    { return VecT{} }
+func StoreU(VecT, *[]Unit)      {}
+func StoreN(VecT, *[]Unit, int) {}
 
 // Dispatch attributes
-type T float64
+type Unit float64
 type VecT struct{}
 
 const (
-	Arch string = ""
-	ISA  string = ""
-	N    int    = 0
-	D    string = ""
+	Arch  string = ""
+	ISA   string = ""
+	Lanes int    = 0
+	D     string = ""
 )
